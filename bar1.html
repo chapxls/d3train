@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+p {
+  color: red;
+}
+
+body {
+  background-color: black;
+}
+
+div.bar {
+  display: inline-block;
+  width: 20px;
+  height: 75px;
+  background-color: teal;
+  margin-right: 2px;
+}
+
+</style>
+    <head>
+        <meta charset="utf-8">
+        <title>D3 Test</title>
+        <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    </head>
+    <body>
+        <script>
+
+			var dataset = [];
+      for(var i = 0; i < 25; i++) {
+        var newNum = Math.round(Math.random() * 30);
+        dataset.push(newNum);
+      }
+
+			d3.select("body").selectAll("div")
+				.data(dataset)
+				.enter()
+				.append("div")
+				.attr("class", "bar")
+				.style("height", function(d) {
+					var barHeight = d * 5;
+          return barHeight + "px";
+				});
+
+        </script>
+    </body>
+</html>

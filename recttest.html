@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+rect {
+  display: inline-block;
+  fill: gray;
+}
+
+button {
+  margin-top: 20px;
+  line-height: 30px;
+  font-weight: bold;
+  padding: 0 20px;
+  background: white;
+  border: dotted;
+}
+button:hover {
+  background: lightsalmon;
+}
+
+</style>
+
+    <head>
+        <meta charset="utf-8">
+        <title>Textbox Test</title>
+        <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    </head>
+
+    <body>
+
+<script>
+var w = 500;
+var h = 200;
+
+var button = document.createElement("button");
+ button.innerHTML = "Reload file";
+
+d3.json("data.json", function(error,json) {
+  if (error) return console.warn(error);
+
+          var svg = d3.select("body").append("svg")
+            .attr("width", h)
+            .attr("height", w);
+
+  var boxData = svg.selectAll(".box").data(json, function(d){return d.id});
+
+  var boxEnter = boxData.enter()
+        .append("g")
+        .attr("class","box")
+        .attr("transform",function(d){return "translate("+ d.x +","+ d.y +")"});
+
+        boxEnter.append("rect")
+        .attr("width", 40)
+        .attr("height",30);
+
+        boxEnter.append("text")
+         .style("fill", "black")
+         .style("font-family", "calibri")
+         .style("font-size", "15px")
+         .attr("dy", "1em")
+         .text(function (d) { return d.label; });
+
+        box.exit().remove();
+
+         var body = document.getElementsByTagName("body")[0];
+         body.appendChild(button);
+
+         button.addEventListener ("click", function() {
+
+         });
+
+});
+
+</script>
+</body>
+</html>

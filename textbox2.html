@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+div.rect {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  background-color: blue;
+}
+
+</style>
+
+    <head>
+        <meta charset="utf-8">
+        <title>Textbox Test</title>
+        <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    </head>
+
+    <body>
+
+      <div class="div"></div>
+
+      <script>
+
+      var width = 500;
+      var height = 500;
+
+      var dataset = [ 50, 50, 50 ];
+
+
+      var svg = d3.select("body")
+                  .append("svg")
+                  .attr("class", "bar")
+                  .attr("width", width)
+                  .attr("height", height);
+
+      var rect = svg.selectAll("rect")
+                  .data(dataset)
+                  .enter()
+                  .append("rect");
+
+        rect.attr("rx", function(d,i) {
+          return (i * 50) + 25
+        })
+        .attr("ry", )
+
+        svg.append("rect")
+            .attr("x", 10)
+            .attr("y", 15)
+            .attr("height", 30)
+            .attr("width", 30)
+
+            svg.append("rect")
+                .attr("x", 50)
+                .attr("y", 40)
+                .attr("height", 30)
+                .attr("width", 30)
+
+                svg.append("rect")
+                    .attr("x", 90)
+                    .attr("y", 15)
+                    .attr("height", 30)
+                    .attr("width", 30)
+  </script>
+</body>
+</html>

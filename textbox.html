@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+</style>
+    <head>
+        <meta charset="utf-8">
+        <title>D3 Test</title>
+        <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    </head>
+    <body>
+
+      <script>
+      var w = 500;
+      var h = 500;
+
+var data = ["hej","du","glade"];
+
+      var svg = d3.select("body").selectAll("div")
+              .data(data)
+              .enter()
+              .append("div")
+              .attr("class","rect")
+              .attr("width", h)
+              .attr("height", w);
+
+              svg.selectAll("rect")
+                 .data(data)
+                 .enter()
+                 .append("rect");
+                 .attr("x", 10)
+                 .attr("y", 15)
+                 .attr("w", 50)
+                 .attr("h", 50);
+
+
+      </script>
+  </body>
+</html>

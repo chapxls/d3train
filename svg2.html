@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+</style>
+    <head>
+        <meta charset="utf-8">
+        <title>D3 Test</title>
+        <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    </head>
+    <body>
+
+      <script>
+var width = 500;
+var height = 100;
+
+      var svg = d3.select("body")
+                  .append("svg")
+                  .attr("width", width)
+                  .attr("height", height);
+
+var data = [5,10,15,20,25];
+
+var circles = svg.selectAll("circle")
+    .data(data)
+    .enter()
+    .append("circle");
+
+circles.attr("cx", function(d, i){
+      return (i * 50) + 25;
+      })
+      .attr("cy", height/2)
+      .attr("r", function(d) {
+        return d;
+      });
+
+circles.attr("fill", "yellow")
+        .attr("stroke", "orange")
+        .attr("stroke-width", function(d) {
+          return d/2;
+      });
+
+
+      </script>
+  </body>
+</html>
