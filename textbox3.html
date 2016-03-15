@@ -60,7 +60,7 @@
       console.log(json);
 
       var box = svg.selectAll(".box")
-        .data(json);
+        .data(json.nodes);
 
       var boxEnter = box.enter()
         .append("g")
@@ -89,34 +89,23 @@
       box.exit()
         .remove();
 
-      var relationData = [];
-      json.forEach(function(boxData) {
-        if (boxData.dependsOn) {
-          relationData.push(boxData);
-        }
-      });
-
-      var boxLine = svg.selectAll(".relation").data(relationData);
+      var boxLine = svg.selectAll(".relation").data(json.links);
 
       boxLine.enter()
         .append("line")
         .attr("class", "relation")
         .style("stroke", "black")
         .attr("x1", function(d) {
-          return d.x;
+          return json.nodes[d.source].x;
         })
         .attr("y1", function(d) {
-          return d.y;
+          return json.nodes[d.source].y;
         })
         .attr("x2", function(d) {
-          var rectangle = d3.select("#rect_" + d.dependsOn)[0];
-          console.log(d.dependsOn);
-          console.log(rectangle);
-          return rectangle[0].__data__.x;
+          return json.nodes[d.target].x;
         })
         .attr("y2", function(d) {
-          var rectangle = d3.select("#rect_" + d.dependsOn)[0];
-          return rectangle[0].__data__.y;
+          return json.nodes[d.target].y;
         })
         .attr("marker-end", "url(#triangle)");
 
