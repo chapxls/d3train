@@ -40,7 +40,24 @@
       .attr("width", w)
       .attr("height", h);
 
+    svg.append("defs")
+      .append("marker")
+      .attr({
+        id: "triangle",
+        viewBox: "0 0 10 10",
+        refX: "10",
+        refY: "5",
+        markerUnits: "strokeWidth",
+        markerWidht: "4",
+        markerHeight: "3",
+        orient: "auto"
+      })
+      .append("path").attr("d", "M 0 0 L 10 5 L 0 10 z");
+
+
     function renderBoxes(json) {
+
+      console.log(json);
 
       var box = svg.selectAll(".box")
         .data(json);
@@ -59,7 +76,6 @@
         .attr("id", function(d) {
           return "rect_" + d.id;
         })
-        .attr("dependsOn", function(d) {return d.dependsOn});
 
       boxEnter.append("text")
         .style("fill", "black")
@@ -70,10 +86,21 @@
           return d.label;
         });
 
-      var rectangle = d3.select("#rect_1")[0];
+      box.exit()
+        .remove();
 
-      var boxLine = box.enter()
+      var relationData = [];
+      json.forEach(function(boxData) {
+        if (boxData.dependsOn) {
+          relationData.push(boxData);
+        }
+      });
+
+      var boxLine = svg.selectAll(".relation").data(relationData);
+
+      boxLine.enter()
         .append("line")
+        .attr("class", "relation")
         .style("stroke", "black")
         .attr("x1", function(d) {
           return d.x;
@@ -82,98 +109,20 @@
           return d.y;
         })
         .attr("x2", function(d) {
-          if (d.dependsOn != undefined) {
-            var rectangle = d3.select("#rect_" + d.dependsOn)[0];
-            return rectangle[0].__data__.x
-          } else {
-            return 0;
-          }
+          var rectangle = d3.select("#rect_" + d.dependsOn)[0];
+          console.log(d.dependsOn);
+          console.log(rectangle);
+          return rectangle[0].__data__.x;
         })
         .attr("y2", function(d) {
-          if (d.dependsOn != undefined) {
-            var rectangle = d3.select("#rect_" + d.dependsOn)[0];
-            return rectangle[0].__data__.y
-          } else {
-            return 0;
-          }
-        });
+          var rectangle = d3.select("#rect_" + d.dependsOn)[0];
+          return rectangle[0].__data__.y;
+        })
+        .attr("marker-end", "url(#triangle)");
 
+      boxLine.exit()
+        .remove();
 
-      console.log(rectangle[0].__data__);
-      json.forEach(function(boxData) {
-
-        //   var box = svg.selectAll(".box")
-        //     .data(json, function(d) {
-        //       return d.id
-        //     });
-
-
-        //
-        //   var boxEnter = box.enter()
-        //     .append("g")
-        //     .attr("class", "box")
-        //     .attr("transform", "translate(" + boxData.x + "," + boxData.y + ")");
-        // //
-        // boxEnter.append("rect")
-        //   .attr("id", boxData.id)
-        //   .attr("class", "rect")
-        //   .attr("width", 40)
-        //   .attr("height", 30);
-        //
-        // boxEnter.append("text")
-        //   .attr("id", boxData.id)
-        //   .style("fill", "black")
-        //   .style("font-family", "calibri")
-        //   .style("font-size", "15px")
-        //   .attr("dy", "1em")
-        //   .text(function(d) {
-        //     return boxData.label;
-        //   });
-        //
-        // drawLine(svg, boxData.x, boxData.y, 100, 150);
-
-        //                console.log(d3.select(svg.select(boxData.x)));
-      })
-
-
-      //   var box = svg.selectAll(".box")
-      //     .data(json, function(d) {
-      //       return d.id
-      //     });
-      //
-      //   var boxEnter = box.enter()
-      //     .append("g")
-      //     .each(function(d) {
-      //       //console.log("enter", d)
-      //     })
-      //     .attr("class", "box")
-      //     .attr("transform", function(d) {
-      //       return "translate(" + d.x + "," + d.y + ")"
-      //     });
-      //
-      //   boxEnter.append("rect")
-      //     .attr("class", "rect")
-      //     .attr("width", 40)
-      //     .attr("height", 30);
-      //
-      //   boxEnter.append("text")
-      //     .style("fill", "black")
-      //     .style("font-family", "calibri")
-      //     .style("font-size", "15px")
-      //     .attr("dy", "1em")
-      //     .text(function(d) {
-      //       return d.label;
-      //     });
-      //
-      //     console.log();
-      //
-      //     drawLine(svg, boxEnter.x, boxEnter.y, 100, 150);
-      //
-      //   box.exit()
-      //     .each(function(d) {
-      //       console.log("remove", d)
-      //     })
-      //     .remove();
     }
 
     function readAndRender() {
@@ -183,33 +132,6 @@
         renderBoxes(json);
       });
     }
-
-    function drawLine(drawArea, x1, y1, x2, y2) {
-      drawArea.append("line")
-        .style("stroke", "black")
-        .attr("x1", x1)
-        .attr("y1", y1)
-        .attr("x2", x2)
-        .attr("y2", y2);
-    }
-
-    // function addText(text, label) {
-    //   text.append("text")
-    //     .style("fill", "black")
-    //     .style("font-family", "calibri")
-    //     .style("font-size", "15px")
-    //     .attr("dy", "1em");
-    // }
-    //   boxEnter.append("text")
-    //     .style("fill", "black")
-    //     .style("font-family", "calibri")
-    //     .style("font-size", "15px")
-    //     .attr("dy", "1em")
-    //     .text(function(d) {
-    //       return d.label;
-    //     });
-
-    //  .attr("id", function(d) { return d.id; })
 
     readAndRender();
 
